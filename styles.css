@@ -11,11 +11,11 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     background: #1d1d31;
 }
 
 .container{
-    position: relative;
     width: 400px;
     height: 105px;
     background: #fff;
@@ -72,16 +72,19 @@ body{
     font-size: 28px;
 }
 
-.weather-box{
+#weather-box{
+    height: 400px;
+    width: 1600px;
     text-align: center;
+    color: #ddd;
 }
 
-.weather-box img{
+#weather-box img{
     width: 60%;
     margin-top: 30px;
 }
 
-.weather-box .temperature{
+#weather-box .temperature{
     position: relative;
     color: #1d1d31;
     font-size: 4rem;
@@ -90,13 +93,13 @@ body{
     margin-left: -16px;
 }
 
-.weather-box .temperature span{
+#weather-box .temperature span{
     position: absolute;
     margin-left: 4px;
     font-size: 1.5rem;
 }
 
-.weather-box .description{
+#weather-box .description{
     color: #1d1d31;
     font-size: 22px;
     font-weight: 500;
@@ -174,6 +177,18 @@ body{
 .fadeIn{
     animation: 0.5s fadeIn forwards;
     animation-delay: 0.5s;
+}
+
+#match-list {
+    color: #ddd;
+}
+
+.match-element {
+    height: 10%;
+}
+
+.match-flag {
+    height: 40px;
 }
 
 @keyframes fadeIn{
