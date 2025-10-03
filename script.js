@@ -1,9 +1,21 @@
+const COUNTRY_API = 'https://api.sampleapis.com/countries/countries'
 const LOCATION_API = 'https://geocoding-api.open-meteo.com/v1/search'
 const WEATHER_API = 'https://api.open-meteo.com/v1/forecast'
 
 const searchInput = document.getElementById('search-input')
 const searchButton = document.getElementById('search-button')
 const weatherInfo = document.getElementById('weather-info')
+
+async function getCountryFlagData() {
+    const data = await fetch(COUNTRY_API)
+    const map = new Map()
+    for (const country of await data.json()) {
+        map.set(country.abbreviation, country.media.flag)
+    }
+    return map
+}
+
+const flagData = await getCountryFlagData()
 
 async function searchLocationData(searchString) {
     const sanitizedString = searchString
@@ -32,9 +44,10 @@ searchButton.onclick = async () => {
             longitude: firstMatch.longitude,
             current: 'temperature_2mn'
         })
-        weatherInfo.textContent = `
+        const flag = flagData.get(firstMatch.country_code)
+        weatherInfo.innerHTML = `
             ${firstMatch.name}
-            (${firstMatch.country}):
+            <img height="20px" src="${flag}"/>:
             ${weatherData.current.temperature_2m}°C
         `
         console.log('Location Data:', locationData.results)
