@@ -7,10 +7,10 @@ const weatherInfo = document.getElementById('weather-info')
 
 async function searchLocationData(searchString) {
     const sanitizedString = searchString
-    .split(/\s+/)
-    .map((string) => string.replace(/\W+/g, ''))
-    .filter((string) => string !== '')
-    .join('+')
+        .split(/\s+/)
+        .map((string) => string.replace(/\W+/g, ''))
+        .filter((string) => string !== '')
+        .join('+')
     const url = `${LOCATION_API}?name=${sanitizedString}`
     return fetch(url).then((data) => data.json())
 }
