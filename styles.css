@@ -1,0 +1,22 @@
+#main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+
+}
+
+#search-container {
+   
+}
+
+#result {
+    height: 15%;
+    background-image: url();
+}

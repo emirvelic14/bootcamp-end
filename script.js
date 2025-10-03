@@ -5,17 +5,18 @@ const WEATHER_API = 'https://api.open-meteo.com/v1/forecast'
 const searchInput = document.getElementById('search-input')
 const searchButton = document.getElementById('search-button')
 const weatherInfo = document.getElementById('weather-info')
+const main = document.getElementById('main')
 
-async function getCountryFlagData() {
+async function getCountrymediaData() {
     const data = await fetch(COUNTRY_API)
     const map = new Map()
     for (const country of await data.json()) {
-        map.set(country.abbreviation, country.media.flag)
+        map.set(country.abbreviation, country.media)
     }
     return map
 }
 
-const flagData = await getCountryFlagData()
+const mediaData = await getCountrymediaData()
 
 async function searchLocationData(searchString) {
     const sanitizedString = searchString
@@ -44,7 +45,9 @@ searchButton.onclick = async () => {
             longitude: firstMatch.longitude,
             current: 'temperature_2mn'
         })
-        const flag = flagData.get(firstMatch.country_code)
+        const flag = mediaData.get(firstMatch.country_code).flag
+        const globePicture = mediaData.get(firstMatch.country_code).orthographic
+        main.style.backgroundImage = globePicture
         weatherInfo.innerHTML = `
             ${firstMatch.name}
             <img height="20px" src="${flag}"/>:
