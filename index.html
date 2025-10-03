@@ -18,22 +18,24 @@
 
 <body>
 
+    <div id="weather-box">
+        <img src="">
+        <p class="temperature"></p>
+        <p class="description"></p>
+    </div>
+
+    <ul id="match-list"></ul>
+
     <div class="container">
         <div class="search-box">
             <i class="fa-solid fa-location-dot"></i>
-            <input type="text" placeholder="Enter your location">
-            <button class="fa-solid fa-magnifying-glass"></button>
+            <input id="search-input" placeholder="Enter your location">
+            <button id="search-button" class="fa-solid fa-magnifying-glass"></button>
         </div>
-
+        
         <div class="not-found">
             <img src="images/404.png" width="300px" height="300px">
             <p>Oops! Invalid location :/</p>
-        </div>
-
-        <div class="weather-box">
-            <img src="">
-            <p class="temperature"></p>
-            <p class="description"></p>
         </div>
 
         <div class="weather-details">
@@ -50,7 +52,7 @@
                     <span></span>
                     <p>Wind Speed</p>
                 </div>
-            </div    <script src="script.js"></script>>
+            </div>
         </div>
     </div>
 
