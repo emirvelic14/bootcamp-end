@@ -1,4 +1,5 @@
-const CHINA_FLAG = 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg' // wrong URL in API
+const CHINA_FLAG = 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg'
+const AFGHANISTAN_FLAG = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Flag_of_Afghanistan_(2013%E2%80%932021).svg/800px-Flag_of_Afghanistan_(2013%E2%80%932021).svg.png'
 const COUNTRY_API = 'https://api.sampleapis.com/countries/countries'
 const LOCATION_API = 'https://geocoding-api.open-meteo.com/v1/search'
 const WEATHER_API = 'https://api.open-meteo.com/v1/forecast'
@@ -38,6 +39,7 @@ async function getCountryData() {
         }
     }
     countryData.CN.flag = CHINA_FLAG
+    countryData.AF.flag = AFGHANISTAN_FLAG
     return countryData
 }
 
@@ -93,11 +95,9 @@ function createMatchElement(location) {
     const matchElement = document.createElement('li')
     const matchButton = document.createElement('button')
     const matchName = document.createElement('p')
-    const matchFlag = document.createElement('img')
     matchElement.className = 'match-element'
     matchButton.className = 'match-button'
     matchName.className = 'match-name'
-    matchFlag.className = 'match-flag'
     matchName.textContent = location.name
     matchButton.onclick = async () => {
         selectedLocation = matchButton
@@ -109,12 +109,14 @@ function createMatchElement(location) {
         })
         updateWeather(location, weatherData.current)
     }
-    const country = countryData[location.country_code]
-    matchFlag.src = country.flag
-    matchFlag.alt = country.name
-    matchFlag.title = country.name
     matchButton.appendChild(matchName)
-    if (country.flag) {
+    const country = countryData[location.country_code]
+    if (country?.flag) {
+        const matchFlag = document.createElement('img')
+        matchFlag.className = 'match-flag'
+        matchFlag.src = country.flag
+        matchFlag.alt = country.name
+        matchFlag.title = country.name
         matchButton.appendChild(matchFlag)
     }
     matchElement.appendChild(matchButton)
