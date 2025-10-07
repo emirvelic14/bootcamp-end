@@ -18,6 +18,8 @@ const weatherDetails = document.querySelector('.weather-details')
 const container = document.querySelector('.container')
 const notFound = document.querySelector('.not-found')
 
+let selectedLocation = null
+
 hideWeather()
 searchInput.focus()
 
@@ -76,6 +78,7 @@ searchButton.onclick = async () => {
             matchList.appendChild(matchElement)
         }
 
+        matchList.style.display = ''
         notFound.style.display = 'none'
     } else {
 
@@ -94,8 +97,9 @@ function createMatchElement(location) {
     matchFlag.className = 'match-flag'
     matchName.textContent = location.name
     matchButton.onclick = async () => {
+        selectedLocation = matchButton
         searchInput.focus()
-        matchList.innerHTML = ''
+        matchList.style.display = 'none'
         const weatherData = await searchWeatherData({
             latitude: location.latitude,
             longitude: location.longitude,
@@ -173,4 +177,10 @@ searchInput.onkeydown = (event) => {
     if (event.key === 'Enter') {
         searchButton.click()
     }
+}
+
+document.getElementById('location-name').onclick = () => {
+    matchList.style.display = 'block'
+    hideWeather()
+    selectedLocation.focus()
 }
