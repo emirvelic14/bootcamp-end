@@ -14,6 +14,11 @@ const searchInput = document.getElementById('search-input')
 const searchButton = document.getElementById('search-button')
 const matchList = document.getElementById('match-list')
 const weatherBox = document.getElementById('weather-box')
+const weatherDetails = document.querySelector('.weather-details')
+const container = document.querySelector('.container')
+const notFound = document.querySelector('.not-found')
+
+hideWeather()
 
 function getImagePath(name) {
     return `images/${name}.png`
@@ -57,13 +62,20 @@ searchButton.onclick = async () => {
     const locationData = await searchLocationData(searchInput.value)
     searchInput.value = ''
     matchList.innerHTML = ''
+
+    openContainer()
+    hideWeather()
     if (locationData && locationData.results) {
         for (const location of locationData.results) {
             const matchElement = createMatchElement(location)
             matchList.appendChild(matchElement)
         }
+
+        notFound.style.display = 'none'
     } else {
-        getImagePath('404')
+
+        notFound.style.display = 'block'
+        matchList.innerHTML = ''
     }
 }
 
@@ -105,6 +117,30 @@ function updateWeather(location, weatherData) {
     humidity.textContent = `${weatherData.relative_humidity_2m}%`
     const wind = document.getElementById('wind')
     wind.textContent = `${weatherData.wind_speed_10m}km/h`
+
+    showWeather()
+    openContainer(true)
+}
+
+function openContainer(expandFully = false) {
+
+    if (expandFully) {
+        container.style.maxHeight = '520px'
+    } else {
+        container.style.maxHeight = '360px'
+    }
+    container.style.boxShadow = '0 18px 50px rgba(16,24,40,0.45)'
+}
+
+function hideWeather() {
+    weatherBox.style.display = 'none'
+    weatherDetails.style.display = 'none'
+}
+
+function showWeather() {
+    weatherBox.style.display = 'block'
+    weatherDetails.style.display = 'flex'
+    notFound.style.display = 'none'
 }
 
 function computeWeatherType(data) {
