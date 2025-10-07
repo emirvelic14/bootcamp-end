@@ -7,7 +7,7 @@ const WEATHER_PARAMETERS = [
     'relative_humidity_2m',
     'cloud_cover',
     'rain',
-    'snowfall'
+    'snowfall',
 ].join(',')
 
 const searchInput = document.getElementById('search-input')
@@ -15,11 +15,23 @@ const searchButton = document.getElementById('search-button')
 const matchList = document.getElementById('match-list')
 const weatherBox = document.getElementById('weather-box')
 
-const flagData = new Map()
-const countryData = await fetch(COUNTRY_API)
-for (const country of await countryData.json()) {
-    flagData.set(country.abbreviation, country.media.flag)
+function getImagePath(name) {
+    return `images/${name}.png`
 }
+
+async function getCountryData() {
+    const data = await fetch(COUNTRY_API)
+    const countryData = {}
+    for (const country of await data.json()) {
+        countryData[country.abbreviation] = {
+            name: country.name,
+            flag: country.media.flag
+        }
+    }
+    return countryData
+}
+
+const countryData = await getCountryData()
 
 async function searchLocationData(searchString) {
     const sanitizedString = searchString
@@ -45,42 +57,70 @@ searchButton.onclick = async () => {
     const locationData = await searchLocationData(searchInput.value)
     searchInput.value = ''
     matchList.innerHTML = ''
-    weatherBox.innerHTML = ''
     if (locationData && locationData.results) {
         for (const location of locationData.results) {
             const matchElement = createMatchElement(location)
             matchList.appendChild(matchElement)
         }
+    } else {
+        getImagePath('404')
     }
 }
 
 function createMatchElement(location) {
     const matchElement = document.createElement('li')
+    const matchName = document.createElement('button')
     const matchFlag = document.createElement('img')
-    const matchName = document.createElement('h3')
     matchElement.className = 'match-element'
-    matchFlag.className = 'match-flag'
     matchName.className = 'match-name'
-    matchFlag.src = flagData.get(location.country_code)
+    matchFlag.className = 'match-flag'
     matchName.textContent = location.name
-    matchElement.onclick = async () => {
+    matchName.onclick = async () => {
+        matchList.innerHTML = ''
         const weatherData = await searchWeatherData({
             latitude: location.latitude,
             longitude: location.longitude,
             current: WEATHER_PARAMETERS
         })
-        searchInput.value = ''
-        matchList.innerHTML = ''
-        weatherBox.innerHTML = `
-            ${location.name}
-            ${weatherData.current.temperature_2m}°C
-            ${weatherData.current.wind_speed_10m}->
-            ${weatherData.current.relative_humidity_2m};
-        `
+        updateWeather(location, weatherData.current)
     }
-    matchElement.appendChild(matchFlag)
+    const country = countryData[location.country_code]
+    matchFlag.src = country.flag
+    matchFlag.alt = country.name
     matchElement.appendChild(matchName)
+    matchElement.appendChild(matchFlag)
     return matchElement
+}
+
+function updateWeather(location, weatherData) {
+    const weatherImage = document.getElementById('weather-image')
+    const weatherType = computeWeatherType(weatherData)
+    weatherImage.src = getImagePath(weatherType)
+    weatherImage.alt = `${weatherType} weather`
+    const temperature = document.getElementById('temperature')
+    temperature.textContent = `${parseInt(weatherData.temperature_2m)}°C`
+    const locationName = document.getElementById('location-name')
+    locationName.textContent = location.name
+    const humidity = document.getElementById('humidity')
+    humidity.textContent = `${weatherData.relative_humidity_2m}%`
+    const wind = document.getElementById('wind')
+    wind.textContent = `${weatherData.wind_speed_10m}km/h`
+}
+
+function computeWeatherType(data) {
+    if (data.snow > 0) {
+        return 'snowy'
+    }
+    if (data.rain > 0) {
+        return 'rainy'
+    }
+    if (data.cloud_cover > 80) {
+        return 'cloudy'
+    }
+    if (data.cloud_cover > 30) {
+        return 'mixed'
+    }
+    return 'sunny'
 }
 
 searchInput.onkeydown = (event) => {
