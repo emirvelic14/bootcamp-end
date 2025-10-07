@@ -62,10 +62,11 @@ async function searchWeatherData(options) {
 }
 
 searchButton.onclick = async () => {
-    searchInput.focus()
     if (!searchInput.value) {
+        searchInput.focus()
         return
     }
+    searchInput.blur()
     const locationData = await searchLocationData(searchInput.value)
     searchInput.value = ''
     matchList.innerHTML = ''
@@ -98,7 +99,6 @@ function createMatchElement(location) {
     matchName.textContent = location.name
     matchButton.onclick = async () => {
         selectedLocation = matchButton
-        searchInput.focus()
         matchList.style.display = 'none'
         const weatherData = await searchWeatherData({
             latitude: location.latitude,
