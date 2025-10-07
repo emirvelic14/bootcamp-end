@@ -78,6 +78,14 @@ body {
     margin-top: 12px;
     display: block;
     color: #1d1d31;
+    max-height: 300px; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 6px; 
+    margin-bottom: 6px;
+    padding-bottom: 18px;
+    scroll-padding-bottom: 18px;
 }
 
 .match-element {
@@ -89,6 +97,7 @@ body {
     border-radius: 10px;
     background: #f7fbff;
     margin-bottom: 8px;
+    width: 100%;
 }
 
 .match-element button.match-name{
@@ -96,7 +105,7 @@ body {
     border: none;
     text-align: left;
     font-size: 16px;
-    font-weight: 600;
+    width: 100%;
     color: #1d1d31;
     cursor: pointer;
 }
@@ -229,4 +238,22 @@ body {
         scale: 1;
         opacity: 1;
     }
+}
+
+
+#match-list::-webkit-scrollbar {
+    width: 8px;
+}
+#match-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+#match-list::-webkit-scrollbar-thumb {
+    background: rgba(29,29,49,0.12);
+    border-radius: 8px;
+}
+
+
+#match-list {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(29,29,49,0.12) transparent;
 }
