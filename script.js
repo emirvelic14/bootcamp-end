@@ -174,5 +174,3 @@ searchInput.onkeydown = (event) => {
         searchButton.click()
     }
 }
-
-setInterval(() => console.log(document.activeElement), 1000)
