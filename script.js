@@ -125,7 +125,7 @@ function updateWeather(location, weatherData) {
 function openContainer(expandFully = false) {
 
     if (expandFully) {
-        container.style.maxHeight = '520px'
+        container.style.maxHeight = '560px'
     } else {
         container.style.maxHeight = '360px'
     }
@@ -150,10 +150,10 @@ function computeWeatherType(data) {
     if (data.rain > 0) {
         return 'rainy'
     }
-    if (data.cloud_cover > 80) {
+    if (data.cloud_cover > 90) {
         return 'cloudy'
     }
-    if (data.cloud_cover > 30) {
+    if (data.cloud_cover > 40) {
         return 'mixed'
     }
     return 'sunny'

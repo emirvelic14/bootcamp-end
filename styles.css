@@ -78,7 +78,7 @@ body {
     margin-top: 12px;
     display: block;
     color: #1d1d31;
-    max-height: 300px; 
+    max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -166,7 +166,6 @@ body {
 }
 
 .wind {
-
     margin-left: auto;
     justify-content: flex-start; 
 }
