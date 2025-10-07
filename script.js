@@ -1,3 +1,4 @@
+const CHINA_FLAG = 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg' // wrong URL in API
 const COUNTRY_API = 'https://api.sampleapis.com/countries/countries'
 const LOCATION_API = 'https://geocoding-api.open-meteo.com/v1/search'
 const WEATHER_API = 'https://api.open-meteo.com/v1/forecast'
@@ -36,6 +37,7 @@ async function getCountryData() {
             flag: country.media.flag
         }
     }
+    countryData.CN.flag = CHINA_FLAG
     return countryData
 }
 
@@ -110,6 +112,7 @@ function createMatchElement(location) {
     const country = countryData[location.country_code]
     matchFlag.src = country.flag
     matchFlag.alt = country.name
+    matchFlag.title = country.name
     matchButton.appendChild(matchName)
     if (country.flag) {
         matchButton.appendChild(matchFlag)
