@@ -7,7 +7,7 @@ const WEATHER_PARAMETERS = [
     'relative_humidity_2m',
     'cloud_cover',
     'rain',
-    'snowfall',
+    'snowfall'
 ].join(',')
 
 const searchInput = document.getElementById('search-input')
@@ -19,6 +19,7 @@ const container = document.querySelector('.container')
 const notFound = document.querySelector('.not-found')
 
 hideWeather()
+searchInput.focus()
 
 function getImagePath(name) {
     return `images/${name}.png`
@@ -59,6 +60,10 @@ async function searchWeatherData(options) {
 }
 
 searchButton.onclick = async () => {
+    searchInput.focus()
+    if (!searchInput.value) {
+        return
+    }
     const locationData = await searchLocationData(searchInput.value)
     searchInput.value = ''
     matchList.innerHTML = ''
@@ -75,19 +80,21 @@ searchButton.onclick = async () => {
     } else {
 
         notFound.style.display = 'block'
-        matchList.innerHTML = ''
     }
 }
 
 function createMatchElement(location) {
     const matchElement = document.createElement('li')
-    const matchName = document.createElement('button')
+    const matchButton = document.createElement('button')
+    const matchName = document.createElement('p')
     const matchFlag = document.createElement('img')
     matchElement.className = 'match-element'
+    matchButton.className = 'match-button'
     matchName.className = 'match-name'
     matchFlag.className = 'match-flag'
     matchName.textContent = location.name
-    matchName.onclick = async () => {
+    matchButton.onclick = async () => {
+        searchInput.focus()
         matchList.innerHTML = ''
         const weatherData = await searchWeatherData({
             latitude: location.latitude,
@@ -99,8 +106,11 @@ function createMatchElement(location) {
     const country = countryData[location.country_code]
     matchFlag.src = country.flag
     matchFlag.alt = country.name
-    matchElement.appendChild(matchName)
-    matchElement.appendChild(matchFlag)
+    matchButton.appendChild(matchName)
+    if (country.flag) {
+        matchButton.appendChild(matchFlag)
+    }
+    matchElement.appendChild(matchButton)
     return matchElement
 }
 
@@ -116,7 +126,7 @@ function updateWeather(location, weatherData) {
     const humidity = document.getElementById('humidity')
     humidity.textContent = `${weatherData.relative_humidity_2m}%`
     const wind = document.getElementById('wind')
-    wind.textContent = `${weatherData.wind_speed_10m}km/h`
+    wind.textContent = `${parseInt(weatherData.wind_speed_10m)}km/h`
 
     showWeather()
     openContainer(true)
@@ -127,7 +137,7 @@ function openContainer(expandFully = false) {
     if (expandFully) {
         container.style.maxHeight = '560px'
     } else {
-        container.style.maxHeight = '360px'
+        container.style.maxHeight = '400px'
     }
     container.style.boxShadow = '0 18px 50px rgba(16,24,40,0.45)'
 }
@@ -164,3 +174,5 @@ searchInput.onkeydown = (event) => {
         searchButton.click()
     }
 }
+
+setInterval(() => console.log(document.activeElement), 1000)
