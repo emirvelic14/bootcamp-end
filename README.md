@@ -36,13 +36,12 @@ To verify that the app works correctly:
 2. Enter an invalid location, e.g., “abcxyz”, and confirm that the message Oops! Invalid location :/ is displayed.
 3. Test on both mobile and desktop to ensure the layout is responsive.
 
-Features
+<h2>Features</h2>
 
-Dynamic weather icons based on API data
+- Dynamic weather icons based on API data
+- Mobile-friendly scroll with -webkit-overflow-scrolling: touch
+- Smooth animations when weather information updates
 
-Mobile-friendly scroll with -webkit-overflow-scrolling: touch
-
-Smooth animations when weather information updates
 
 
 
