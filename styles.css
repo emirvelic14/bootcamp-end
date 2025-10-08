@@ -80,7 +80,7 @@ body {
 #match-list {
     list-style: none;
     margin-top: 12px;
-    display: block;
+    display: none;
     color: #1d1d31;
     max-height: 300px;
     overflow-y: auto;

@@ -18,14 +18,14 @@ const weatherDetails = document.querySelector('.weather-details')
 const container = document.querySelector('.container')
 const notFound = document.querySelector('.not-found')
 
+function getImagePath(name) {
+    return `images/${name}.png`
+}
+
 let selectedLocation = null
 
 hideWeather()
 searchInput.focus()
-
-function getImagePath(name) {
-    return `images/${name}.png`
-}
 
 const countryData = {}
 
@@ -54,7 +54,12 @@ async function searchLocationData(searchString) {
     }
 }
 
-async function searchWeatherData(options) {
+async function searchWeatherData(location) {
+    const options = {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        current: WEATHER_PARAMETERS
+    }
     const optionsString = Object.entries(options)
         .map((option) => option.join('='))
         .join('&')
@@ -80,7 +85,7 @@ searchButton.onclick = async () => {
             matchList.appendChild(matchElement)
         }
 
-        matchList.style.display = ''
+        matchList.style.display = 'block'
         notFound.style.display = 'none'
     } else {
 
@@ -97,13 +102,10 @@ function createMatchElement(location) {
     matchName.className = 'match-name'
     matchName.innerHTML = getDetailedMatchName(location)
     matchButton.onclick = async () => {
+        localStorage.setItem('location', JSON.stringify(location))
         selectedLocation = matchButton
         matchList.style.display = 'none'
-        const weatherData = await searchWeatherData({
-            latitude: location.latitude,
-            longitude: location.longitude,
-            current: WEATHER_PARAMETERS
-        })
+        const weatherData = await searchWeatherData(location)
         updateWeather(location, weatherData.current)
     }
     matchButton.appendChild(matchName)
@@ -112,7 +114,6 @@ function createMatchElement(location) {
         const matchFlag = document.createElement('img')
         matchFlag.className = 'match-flag'
         matchFlag.src = country.flag
-        matchFlag.title = country.name
         matchFlag.alt = `Flag of ${country.name}`
         matchButton.appendChild(matchFlag)
         matchFlag.onerror = () => {
@@ -120,6 +121,7 @@ function createMatchElement(location) {
         }
     }
     matchElement.appendChild(matchButton)
+    matchElement.title = country.name
     return matchElement
 }
 
@@ -185,6 +187,15 @@ function computeWeatherType(data) {
     return 'sunny'
 }
 
+async function loadLocalStorage() {
+    const storedValue = localStorage.getItem('location')
+    if (storedValue) {
+        const location = JSON.parse(storedValue)
+        const weatherData = await searchWeatherData(location)
+        updateWeather(location, weatherData.current)
+    }
+}
+
 searchInput.onkeydown = (event) => {
     if (event.key === 'Enter') {
         searchButton.click()
@@ -192,8 +203,12 @@ searchInput.onkeydown = (event) => {
 }
 
 document.getElementById('location-name').onclick = () => {
-    matchList.style.display = 'block'
-    openContainer()
-    hideWeather()
-    selectedLocation.focus()
+    if (selectedLocation) {
+        matchList.style.display = 'block'
+        openContainer()
+        hideWeather()
+        selectedLocation.focus()
+    }
 }
+
+loadLocalStorage()
