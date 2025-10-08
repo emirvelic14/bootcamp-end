@@ -17,31 +17,24 @@ The app uses JavaScript to fetch data from external APIs and dynamically update 
 - script.js – Handles app logic, API requests, and UI updates
 - images/ – Contains images for weather types and icons
 
-Installation and Running
+<h2>Installation and Running</h2>
 
-Download or clone the project to your computer.
-
-Open index.html in a web browser such as Chrome, Firefox, or Safari.
-
-Type a location into the search bar and press Enter or click the search icon.
-
-If the location is valid, the weather data will be displayed. If not, an error message appears.
+1. Download or clone the project to your computer.
+2. Open index.html in a web browser such as Chrome, Firefox, or Safari.
+3. Type a location into the search bar and press Enter or click the search icon.
+4. If the location is valid, the weather data will be displayed. If not, an error message appears.
 
 No server or installation is required — the app runs directly in the browser.
 
-Testing
+<h2>Testing</h2>
 
 To verify that the app works correctly:
 
-Enter known cities like Stockholm, New York, or Tokyo. Check that:
-
-Temperature, wind, and humidity are displayed correctly
-
-The appropriate weather icon appears
-
-Enter an invalid location, e.g., “abcxyz”, and confirm that the message Oops! Invalid location :/ is displayed.
-
-Test on both mobile and desktop to ensure the layout is responsive.
+1. Enter known cities like Stockholm, New York, or Tokyo. Check that:
+  - Temperature, wind, and humidity are displayed correctly
+  - The appropriate weather icon appears
+2. Enter an invalid location, e.g., “abcxyz”, and confirm that the message Oops! Invalid location :/ is displayed.
+3. Test on both mobile and desktop to ensure the layout is responsive.
 
 Features
 
@@ -50,6 +43,7 @@ Dynamic weather icons based on API data
 Mobile-friendly scroll with -webkit-overflow-scrolling: touch
 
 Smooth animations when weather information updates
+
 
 
 
