@@ -17,6 +17,7 @@ const weatherBox = document.getElementById('weather-box')
 const weatherDetails = document.querySelector('.weather-details')
 const container = document.querySelector('.container')
 const notFound = document.querySelector('.not-found')
+const locationName = document.getElementById('location-name')
 
 function getImagePath(name) {
     return `images/${name}.png`
@@ -202,12 +203,15 @@ searchInput.onkeydown = (event) => {
     }
 }
 
-document.getElementById('location-name').onclick = () => {
+locationName.onclick = () => {
     if (selectedLocation) {
         matchList.style.display = 'block'
         openContainer()
         hideWeather()
         selectedLocation.focus()
+    } else {
+        searchInput.value = locationName.textContent
+        searchButton.click()
     }
 }
 
