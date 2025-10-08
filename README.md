@@ -1,61 +1,58 @@
 Weather App
-Beskrivning
+Description
 
-Det här är en enkel global väderapp som låter användaren söka efter en plats och visa aktuell väderinformation. Appen visar:
+This is a simple global weather application that allows users to search for any location and view current weather information. The app displays:
 
-Temperatur
+Temperature
 
-Luftfuktighet
+Humidity
 
-Vindhastighet
+Wind speed
 
-En ikon som representerar vädertypen (soligt, molnigt, regnigt, snöigt)
+An icon representing the weather type (sunny, cloudy, rainy, snowy)
 
-Appen använder JavaScript för att hämta data från externa API:er och uppdatera gränssnittet dynamiskt. Den är mobilvänlig och har mjuk scroll på sökresultaten.
+The app uses JavaScript to fetch data from external APIs and dynamically update the interface. It is mobile-friendly and includes smooth scrolling for search results.
 
-Filer i projektet
+Project Files
 
-index.html – Huvudfilen med strukturen för appen
+index.html – The main HTML structure of the app
 
-styles.css – Styling för appens layout, färger och animationer
+styles.css – Stylesheet for layout, colors, and animations
 
-script.js – Funktionalitet, API-anrop och logik för att visa väderdata
+script.js – Handles app logic, API requests, and UI updates
 
-images/ – Bilder som representerar olika vädertyper och ikoner
+images/ – Contains images for weather types and icons
 
-<h1>Installation och körning</h1>
+Installation and Running
 
-Ladda ner eller klona projektet till din dator.
+Download or clone the project to your computer.
 
-Öppna index.html i en webbläsare som Chrome, Firefox eller Safari.
+Open index.html in a web browser such as Chrome, Firefox, or Safari.
 
-Skriv in en plats i sökfältet och tryck på Enter eller klicka på sökikonen.
+Type a location into the search bar and press Enter or click the search icon.
 
-Om platsen finns visas vädret direkt. Om platsen inte hittas visas ett felmeddelande.
+If the location is valid, the weather data will be displayed. If not, an error message appears.
 
-Ingen server eller installation krävs — appen körs direkt i webbläsaren.
+No server or installation is required — the app runs directly in the browser.
 
-Testning
+Testing
 
-För att testa att appen fungerar korrekt:
+To verify that the app works correctly:
 
-Skriv in kända städer som Stockholm, New York eller Tokyo. Kontrollera att:
+Enter known cities like Stockholm, New York, or Tokyo. Check that:
 
-Temperatur, vind och fuktighet visas korrekt
+Temperature, wind, and humidity are displayed correctly
 
-Rätt väderikon visas
+The appropriate weather icon appears
 
-Skriv in en ogiltig plats, t.ex. “abcxyz”. Kontrollera att meddelandet Oops! Invalid location :/ visas.
+Enter an invalid location, e.g., “abcxyz”, and confirm that the message Oops! Invalid location :/ is displayed.
 
-Testa på både mobil och desktop för att säkerställa att layouten fungerar responsivt.
+Test on both mobile and desktop to ensure the layout is responsive.
 
-Funktioner
+Features
 
-Sökfält med autocomplete-liknande matchning
+Dynamic weather icons based on API data
 
-Dynamiska väderikoner baserat på API-data
+Mobile-friendly scroll with -webkit-overflow-scrolling: touch
 
-Mobilvänlig scroll med -webkit-overflow-scrolling: touch
-
-Mjuk animation vid uppdatering av väderinformation
-
+Smooth animations when weather information updates
