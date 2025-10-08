@@ -1,5 +1,3 @@
-const CHINA_FLAG = 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg'
-const AFGHANISTAN_FLAG = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Flag_of_Afghanistan_(2013%E2%80%932021).svg/800px-Flag_of_Afghanistan_(2013%E2%80%932021).svg.png'
 const COUNTRY_API = 'https://api.sampleapis.com/countries/countries'
 const LOCATION_API = 'https://geocoding-api.open-meteo.com/v1/search'
 const WEATHER_API = 'https://api.open-meteo.com/v1/forecast'
@@ -38,8 +36,6 @@ async function getCountryData() {
             flag: country.media.flag
         }
     }
-    countryData.CN.flag = CHINA_FLAG
-    countryData.AF.flag = AFGHANISTAN_FLAG
     return countryData
 }
 
@@ -115,9 +111,12 @@ function createMatchElement(location) {
         const matchFlag = document.createElement('img')
         matchFlag.className = 'match-flag'
         matchFlag.src = country.flag
-        matchFlag.alt = `Flag of ${country.name}`
         matchFlag.title = country.name
+        matchFlag.alt = `Flag of ${country.name}`
         matchButton.appendChild(matchFlag)
+        matchFlag.onerror = () => {
+            matchButton.removeChild(matchFlag)
+        }
     }
     matchElement.appendChild(matchButton)
     return matchElement

@@ -137,6 +137,10 @@ body {
     display: none; 
 }
 
+#weather-image {
+    max-width: 100%;
+}
+
 #temperature {
     position: relative;
     font-size: 2.6rem;
