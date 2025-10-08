@@ -7,6 +7,7 @@ This is a **simple global weather** application that allows users to search for 
 - Humidity
 - Wind speed
 - An icon representing the weather type (sunny, cloudy, rainy, snowy)
+
 The app uses JavaScript to fetch data from external APIs and dynamically update the interface. It is mobile-friendly and includes smooth scrolling for search results.
 
 <h2>Project Files</h2>
@@ -49,6 +50,7 @@ Dynamic weather icons based on API data
 Mobile-friendly scroll with -webkit-overflow-scrolling: touch
 
 Smooth animations when weather information updates
+
 
 
 
