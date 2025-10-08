@@ -23,7 +23,7 @@ script.js – Funktionalitet, API-anrop och logik för att visa väderdata
 
 images/ – Bilder som representerar olika vädertyper och ikoner
 
-Installation och körning
+<h1>Installation och körning</h1>
 
 Ladda ner eller klona projektet till din dator.
 
@@ -58,3 +58,4 @@ Dynamiska väderikoner baserat på API-data
 Mobilvänlig scroll med -webkit-overflow-scrolling: touch
 
 Mjuk animation vid uppdatering av väderinformation
+
