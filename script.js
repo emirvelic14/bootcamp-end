@@ -95,7 +95,7 @@ function createMatchElement(location) {
     matchElement.className = 'match-element'
     matchButton.className = 'match-button'
     matchName.className = 'match-name'
-    matchName.textContent = location.name
+    matchName.innerHTML = getDetailedMatchName(location)
     matchButton.onclick = async () => {
         selectedLocation = matchButton
         matchList.style.display = 'none'
@@ -123,6 +123,13 @@ function createMatchElement(location) {
     return matchElement
 }
 
+function getDetailedMatchName(location) {
+    return `<b>${location.name}</b> ${[1, 2, 3, 4]
+        .map((number) => location[`admin${number}`])
+        .filter((string) => string !== undefined)
+        .join(' - ')}`
+}
+
 function updateWeather(location, weatherData) {
     const weatherImage = document.getElementById('weather-image')
     const weatherType = computeWeatherType(weatherData)
@@ -144,9 +151,9 @@ function updateWeather(location, weatherData) {
 function openContainer(expandFully = false) {
 
     if (expandFully) {
-        container.style.maxHeight = '560px'
+        container.style.height = '520px'
     } else {
-        container.style.maxHeight = '400px'
+        container.style.height = '380px'
     }
     container.style.boxShadow = '0 18px 50px rgba(16,24,40,0.45)'
 }
