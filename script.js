@@ -27,9 +27,10 @@ function getImagePath(name) {
     return `images/${name}.png`
 }
 
+const countryData = {}
+
 async function getCountryData() {
     const data = await fetch(COUNTRY_API)
-    const countryData = {}
     for (const country of await data.json()) {
         countryData[country.abbreviation] = {
             name: country.name,
@@ -39,7 +40,7 @@ async function getCountryData() {
     return countryData
 }
 
-const countryData = await getCountryData()
+getCountryData()
 
 async function searchLocationData(searchString) {
     const sanitizedString = searchString
