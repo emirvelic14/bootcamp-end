@@ -2,10 +2,10 @@
 <h2>Description</h2>
 
 This is a **simple global weather** application that allows users to search for any location and view current weather information. The app displays:
--Temperature
--Humidity
+- Temperature
+- Humidity
 
--Wind speed
+- Wind speed
 
 An icon representing the weather type (sunny, cloudy, rainy, snowy)
 
@@ -54,5 +54,6 @@ Dynamic weather icons based on API data
 Mobile-friendly scroll with -webkit-overflow-scrolling: touch
 
 Smooth animations when weather information updates
+
 
 
