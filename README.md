@@ -31,8 +31,8 @@ No server or installation is required — the app runs directly in the browser.
 To verify that the app works correctly:
 
 1. Enter known cities like Stockholm, New York, or Tokyo. Check that:
-  - Temperature, wind, and humidity are displayed correctly
-  - The appropriate weather icon appears
+    - Temperature, wind, and humidity are displayed correctly
+    - The appropriate weather icon appears
 2. Enter an invalid location, e.g., “abcxyz”, and confirm that the message Oops! Invalid location :/ is displayed.
 3. Test on both mobile and desktop to ensure the layout is responsive.
 
@@ -43,6 +43,7 @@ Dynamic weather icons based on API data
 Mobile-friendly scroll with -webkit-overflow-scrolling: touch
 
 Smooth animations when weather information updates
+
 
 
 
