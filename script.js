@@ -186,6 +186,7 @@ searchInput.onkeydown = (event) => {
 
 document.getElementById('location-name').onclick = () => {
     matchList.style.display = 'block'
+    openContainer()
     hideWeather()
     selectedLocation.focus()
 }
