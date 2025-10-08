@@ -209,9 +209,6 @@ locationName.onclick = () => {
         openContainer()
         hideWeather()
         selectedLocation.focus()
-    } else {
-        searchInput.value = locationName.textContent
-        searchButton.click()
     }
 }
 
