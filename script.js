@@ -14,12 +14,32 @@ const searchInput = document.getElementById('search-input')
 const searchButton = document.getElementById('search-button')
 const matchList = document.getElementById('match-list')
 const weatherBox = document.getElementById('weather-box')
+const weatherDetails = document.querySelector('.weather-details')
+const container = document.querySelector('.container')
+const notFound = document.querySelector('.not-found')
 
-const flagData = new Map()
-const countryData = await fetch(COUNTRY_API)
-for (const country of await countryData.json()) {
-    flagData.set(country.abbreviation, country.media.flag)
+let selectedLocation = null
+
+hideWeather()
+searchInput.focus()
+
+function getImagePath(name) {
+    return `images/${name}.png`
 }
+
+async function getCountryData() {
+    const data = await fetch(COUNTRY_API)
+    const countryData = {}
+    for (const country of await data.json()) {
+        countryData[country.abbreviation] = {
+            name: country.name,
+            flag: country.media.flag
+        }
+    }
+    return countryData
+}
+
+const countryData = await getCountryData()
 
 async function searchLocationData(searchString) {
     const sanitizedString = searchString
@@ -42,49 +62,129 @@ async function searchWeatherData(options) {
 }
 
 searchButton.onclick = async () => {
+    if (!searchInput.value) {
+        searchInput.focus()
+        return
+    }
+    searchInput.blur()
     const locationData = await searchLocationData(searchInput.value)
     searchInput.value = ''
     matchList.innerHTML = ''
-    weatherBox.innerHTML = ''
+
+    openContainer()
+    hideWeather()
     if (locationData && locationData.results) {
         for (const location of locationData.results) {
             const matchElement = createMatchElement(location)
             matchList.appendChild(matchElement)
         }
+
+        matchList.style.display = ''
+        notFound.style.display = 'none'
+    } else {
+
+        notFound.style.display = 'block'
     }
 }
 
 function createMatchElement(location) {
     const matchElement = document.createElement('li')
-    const matchFlag = document.createElement('img')
-    const matchName = document.createElement('h3')
+    const matchButton = document.createElement('button')
+    const matchName = document.createElement('p')
     matchElement.className = 'match-element'
-    matchFlag.className = 'match-flag'
+    matchButton.className = 'match-button'
     matchName.className = 'match-name'
-    matchFlag.src = flagData.get(location.country_code)
     matchName.textContent = location.name
-    matchElement.onclick = async () => {
+    matchButton.onclick = async () => {
+        selectedLocation = matchButton
+        matchList.style.display = 'none'
         const weatherData = await searchWeatherData({
             latitude: location.latitude,
             longitude: location.longitude,
             current: WEATHER_PARAMETERS
         })
-        searchInput.value = ''
-        matchList.innerHTML = ''
-        weatherBox.innerHTML = `
-            ${location.name}
-            ${weatherData.current.temperature_2m}°C
-            ${weatherData.current.wind_speed_10m}->
-            ${weatherData.current.relative_humidity_2m};
-        `
+        updateWeather(location, weatherData.current)
     }
-    matchElement.appendChild(matchFlag)
-    matchElement.appendChild(matchName)
+    matchButton.appendChild(matchName)
+    const country = countryData[location.country_code]
+    if (country?.flag) {
+        const matchFlag = document.createElement('img')
+        matchFlag.className = 'match-flag'
+        matchFlag.src = country.flag
+        matchFlag.title = country.name
+        matchFlag.alt = `Flag of ${country.name}`
+        matchButton.appendChild(matchFlag)
+        matchFlag.onerror = () => {
+            matchButton.removeChild(matchFlag)
+        }
+    }
+    matchElement.appendChild(matchButton)
     return matchElement
+}
+
+function updateWeather(location, weatherData) {
+    const weatherImage = document.getElementById('weather-image')
+    const weatherType = computeWeatherType(weatherData)
+    weatherImage.src = getImagePath(weatherType)
+    weatherImage.alt = `${weatherType} weather`
+    const temperature = document.getElementById('temperature')
+    temperature.textContent = `${parseInt(weatherData.temperature_2m)}°C`
+    const locationName = document.getElementById('location-name')
+    locationName.textContent = location.name
+    const humidity = document.getElementById('humidity')
+    humidity.textContent = `${weatherData.relative_humidity_2m}%`
+    const wind = document.getElementById('wind')
+    wind.textContent = `${parseInt(weatherData.wind_speed_10m)}km/h`
+
+    showWeather()
+    openContainer(true)
+}
+
+function openContainer(expandFully = false) {
+
+    if (expandFully) {
+        container.style.maxHeight = '560px'
+    } else {
+        container.style.maxHeight = '400px'
+    }
+    container.style.boxShadow = '0 18px 50px rgba(16,24,40,0.45)'
+}
+
+function hideWeather() {
+    weatherBox.style.display = 'none'
+    weatherDetails.style.display = 'none'
+}
+
+function showWeather() {
+    weatherBox.style.display = 'block'
+    weatherDetails.style.display = 'flex'
+    notFound.style.display = 'none'
+}
+
+function computeWeatherType(data) {
+    if (data.snow > 0) {
+        return 'snowy'
+    }
+    if (data.rain > 0) {
+        return 'rainy'
+    }
+    if (data.cloud_cover > 90) {
+        return 'cloudy'
+    }
+    if (data.cloud_cover > 40) {
+        return 'mixed'
+    }
+    return 'sunny'
 }
 
 searchInput.onkeydown = (event) => {
     if (event.key === 'Enter') {
         searchButton.click()
     }
+}
+
+document.getElementById('location-name').onclick = () => {
+    matchList.style.display = 'block'
+    hideWeather()
+    selectedLocation.focus()
 }
