@@ -115,7 +115,7 @@ function createMatchElement(location) {
         const matchFlag = document.createElement('img')
         matchFlag.className = 'match-flag'
         matchFlag.src = country.flag
-        matchFlag.alt = country.name
+        matchFlag.alt = `Flag of ${country.name}`
         matchFlag.title = country.name
         matchButton.appendChild(matchFlag)
     }
