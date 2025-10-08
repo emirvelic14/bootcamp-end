@@ -115,6 +115,7 @@ function createMatchElement(location) {
         const matchFlag = document.createElement('img')
         matchFlag.className = 'match-flag'
         matchFlag.src = country.flag
+        matchFlag.title = country.name
         matchFlag.alt = `Flag of ${country.name}`
         matchButton.appendChild(matchFlag)
         matchFlag.onerror = () => {
@@ -122,7 +123,6 @@ function createMatchElement(location) {
         }
     }
     matchElement.appendChild(matchButton)
-    matchElement.title = country.name
     return matchElement
 }
 
@@ -209,6 +209,8 @@ locationName.onclick = () => {
         openContainer()
         hideWeather()
         selectedLocation.focus()
+    } else {
+        searchInput.focus()
     }
 }
 
