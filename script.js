@@ -166,16 +166,15 @@ function hideWeather() {
     weatherDetails.style.display = 'none'
 }
 
-function showWeather() {
-    weatherBox.style.display = 'block'
-    weatherDetails.style.display = 'flex'
+async function showWeather() {
     notFound.style.display = 'none'
     matchList.style.display = 'none'
-
-    updateWeather()
+    await updateWeather()
     clearInterval(weatherTimer)
     weatherTimer = setInterval(updateWeather, WEATHER_INTERVAL)
     openContainer(true)
+    weatherBox.style.display = 'block'
+    weatherDetails.style.display = 'flex'
 }
 
 function computeWeatherType(data) {
