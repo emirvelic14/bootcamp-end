@@ -9,7 +9,7 @@ const WEATHER_PARAMETERS = [
     'rain',
     'snowfall'
 ].join(',')
-const WEATHER_INTERVAL = 1000 * 60
+const WEATHER_INTERVAL = 1000 * 120
 
 const searchInput = document.getElementById('search-input')
 const searchButton = document.getElementById('search-button')
@@ -109,10 +109,7 @@ function createMatchElement(location) {
         localStorage.setItem('location', JSON.stringify(location))
         selectedLocation = matchButton
         currentLocation = location
-        matchList.style.display = 'none'
-        updateWeather()
-        clearInterval(weatherTimer)
-        weatherTimer = setInterval(updateWeather, WEATHER_INTERVAL)
+        showWeather()
     }
     matchButton.appendChild(matchName)
     const country = countryData[location.country_code]
@@ -152,9 +149,6 @@ async function updateWeather() {
     humidity.textContent = `${weatherData.relative_humidity_2m}%`
     const wind = document.getElementById('wind')
     wind.textContent = `${parseInt(weatherData.wind_speed_10m)}km/h`
-
-    showWeather()
-    openContainer(true)
 }
 
 function openContainer(expandFully = false) {
@@ -176,6 +170,12 @@ function showWeather() {
     weatherBox.style.display = 'block'
     weatherDetails.style.display = 'flex'
     notFound.style.display = 'none'
+    matchList.style.display = 'none'
+
+    updateWeather()
+    clearInterval(weatherTimer)
+    weatherTimer = setInterval(updateWeather, WEATHER_INTERVAL)
+    openContainer(true)
 }
 
 function computeWeatherType(data) {
@@ -198,9 +198,7 @@ async function loadLocalStorage() {
     const storedValue = localStorage.getItem('location')
     if (storedValue) {
         currentLocation = JSON.parse(storedValue)
-        updateWeather()
-        clearInterval(weatherTimer)
-        weatherTimer = setInterval(updateWeather, WEATHER_INTERVAL)
+        showWeather()
     }
 }
 
