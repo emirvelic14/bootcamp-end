@@ -22,12 +22,10 @@
         <div class="search-box">
             <i class="fa-solid fa-location-dot"></i>
             <input id="search-input" placeholder="Enter your location">
-            <button id="search-button" class="fa-solid fa-magnifying-glass" name="search"></button>
+            <button id="search-button" class="fa-solid fa-magnifying-glass" aria-label="search"></button>
         </div>
 
-
-        <ul id="match-list"></ul>
-
+        <ul tabindex="-1" id="match-list" aria-label="match list"></ul>
 
         <div id="weather-box">
             <img id="weather-image">
