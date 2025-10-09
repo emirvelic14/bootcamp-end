@@ -9,6 +9,7 @@ const WEATHER_PARAMETERS = [
     'rain',
     'snowfall'
 ].join(',')
+const WEATHER_INTERVAL = 1000 * 60
 
 const searchInput = document.getElementById('search-input')
 const searchButton = document.getElementById('search-button')
@@ -24,6 +25,8 @@ function getImagePath(name) {
 }
 
 let selectedLocation = null
+let currentLocation = null
+let weatherTimer = null
 
 hideWeather()
 searchInput.focus()
@@ -102,12 +105,14 @@ function createMatchElement(location) {
     matchButton.className = 'match-button'
     matchName.className = 'match-name'
     matchName.innerHTML = getDetailedMatchName(location)
-    matchButton.onclick = async () => {
+    matchButton.onclick = () => {
         localStorage.setItem('location', JSON.stringify(location))
         selectedLocation = matchButton
+        currentLocation = location
         matchList.style.display = 'none'
-        const weatherData = await searchWeatherData(location)
-        updateWeather(location, weatherData.current)
+        updateWeather()
+        clearInterval(weatherTimer)
+        weatherTimer = setInterval(updateWeather, WEATHER_INTERVAL)
     }
     matchButton.appendChild(matchName)
     const country = countryData[location.country_code]
@@ -133,7 +138,8 @@ function getDetailedMatchName(location) {
         .join(' - ')}`
 }
 
-function updateWeather(location, weatherData) {
+async function updateWeather() {
+    const weatherData = (await searchWeatherData(currentLocation)).current
     const weatherImage = document.getElementById('weather-image')
     const weatherType = computeWeatherType(weatherData)
     weatherImage.src = getImagePath(weatherType)
@@ -141,7 +147,7 @@ function updateWeather(location, weatherData) {
     const temperature = document.getElementById('temperature')
     temperature.textContent = `${parseInt(weatherData.temperature_2m)}°C`
     const locationName = document.getElementById('location-name')
-    locationName.textContent = location.name
+    locationName.textContent = currentLocation.name
     const humidity = document.getElementById('humidity')
     humidity.textContent = `${weatherData.relative_humidity_2m}%`
     const wind = document.getElementById('wind')
@@ -191,9 +197,10 @@ function computeWeatherType(data) {
 async function loadLocalStorage() {
     const storedValue = localStorage.getItem('location')
     if (storedValue) {
-        const location = JSON.parse(storedValue)
-        const weatherData = await searchWeatherData(location)
-        updateWeather(location, weatherData.current)
+        currentLocation = JSON.parse(storedValue)
+        updateWeather()
+        clearInterval(weatherTimer)
+        weatherTimer = setInterval(updateWeather, WEATHER_INTERVAL)
     }
 }
 
